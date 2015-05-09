@@ -54,9 +54,6 @@ function rqaciGUI(varargin)
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-% $Log$
-
-
 %% debug settings
 debug = 0;
 if debug,warning('on','all');warning('Matlab:DivideByZero','off');else warning('off','all');end

@@ -39,8 +39,6 @@ function varargout = ciplot(varargin)
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-% $Log$
-
 %% I/O check
 if (nargchk(1,3,nargin)), help(mfilename),error(nargchk(2,3,nargin)); end
 if (nargchk(0,1,nargout)), help(mfilename),error(nargchk(0,1,nargout)); end

@@ -49,8 +49,6 @@ function out = cicompare(X,Y)
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-% $Log$
-
 %% I/O check
 if (nargchk(2,2,nargin)), help(mfilename),error(nargchk(2,2,nargin)); end
 if (nargchk(0,1,nargout)), help(mfilename),error(nargchk(0,2,nargout)); end

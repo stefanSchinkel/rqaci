@@ -48,8 +48,6 @@ function varargout = rqaci(varargin)
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-% $Log$
-
 
 %% I/O check
 if (nargchk(1,6,nargin)), help(mfilename),return; end

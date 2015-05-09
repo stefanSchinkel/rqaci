@@ -42,8 +42,6 @@ function [varargout] = bootstrap(varargin)
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-% $Log$
-
 % debug settings
 debug = 0;
 if debug;warning('on','all');else warning('off','all');end
