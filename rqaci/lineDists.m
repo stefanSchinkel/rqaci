@@ -4,11 +4,11 @@ function varargout = lineDists(varargin)
 %
 % function [diagLines vertLines] = lineDists(RP,[theiler,minL,minV])
 %
-% Extract diagonal and vertical lines larger than minL/minV 
-% from an RP. The chosen Theiler window is respected. 
+% Extract diagonal and vertical lines larger than minL/minV
+% from an RP. The chosen Theiler window is respected.
 %
 % Input:
-%	RP =  RP 
+%	RP =  RP
 % 	theiler = size of the theiler window (def: 1)
 % 	minL = minimal size of diagonal lines (def: 0)
 % 	minV = minimal size of vertical lines (def: 0)
@@ -17,13 +17,12 @@ function varargout = lineDists(varargin)
 %	diagLines = distribution of diagonal lines
 %	vertLines = distribution of vertical lines
 %
-% requires: 
+% requires:
 %
 % see also: opTool
 %
 
-% Copyright (C) 2008 Stefan Schinkel, University of Potsdam
-% http://www.agnld.uni-potsdam.de 
+% Copyright (C) 2007-2015 Stefan Schinkel <mail@dreeg.org>
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -46,7 +45,7 @@ function varargout = lineDists(varargin)
 
 	varargin{5} = [];
 
-	% input assignment 
+	% input assignment
 	X = varargin{1};
 	if ~isempty(varargin{2}), theiler = varargin{2}; else theiler = 1;end
 	if ~isempty(varargin{3}), minLenDiag = varargin{3}; else minLenDiag = 0;end
@@ -54,10 +53,10 @@ function varargout = lineDists(varargin)
 
 
 	%% remove Theiler if requested
-	if theiler > 0 
+	if theiler > 0
 		RP = double(triu(X,theiler))+double(tril(X,-theiler));
 	end
-	
+
 	%get diagonal Lines & pad with zeros
 	diagonals = spdiags(RP);
 	diagonals = [zeros(1,size(diagonals,2)) ; diagonals ; zeros(1,size(diagonals,2))];
@@ -86,6 +85,6 @@ function consElements = maxConsElements(vector)
 	ind1 = find(tmp == 1);
 	ind2 = find(tmp == -1);
 	consElements = ind2-ind1;
-	
+
 end % function maxConsElements
- 
+

@@ -5,37 +5,36 @@ function out = cicompare(X,Y)
 %
 % function out = compareci(X,Y)
 %
-% The function compares to confidence intervals (CI) or 
-% a CI and a vector (univariate timeseries, eg. mean) 
-% provided in X and Y and encodes their relations as:  
+% The function compares to confidence intervals (CI) or
+% a CI and a vector (univariate timeseries, eg. mean)
+% provided in X and Y and encodes their relations as:
 %
 %	X > Y = -1
 %	X = Y = 0
-%	Y > X = 1 
+%	Y > X = 1
 %
-% With the default pcolor colourmap that ensures that X > Y is 
-% is blue, X=Y is green and Y > X is red in a pcolor plot 
+% With the default pcolor colourmap that ensures that X > Y is
+% is blue, X=Y is green and Y > X is red in a pcolor plot
 % (which will be shown if no output is required)
 %
 % Input:
 %	X = confidence interval A
 %	Y = confidence interval B
-%	with 
+%	with
 %		X/Y(1,:) = upper conf. bound
 %		X/Y(2,:) = lower conf. bound
-%	or 
+%	or
 %	Y = vector B (eg mean of B)
 %
 % Output:
 %	out = vector denoting relation
 %
-% requires: 
+% requires:
 %
 % see also: ciplot.m rqaci.m
 %
 
-% Copyright (C) 2008 Stefan Schinkel, University of Potsdam
-% http://www.agnld.uni-potsdam.de 
+% Copyright (C) 2007-2015 Stefan Schinkel <mail@dreeg.org>
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -61,10 +60,10 @@ if length(X) ~= length(Y)
 end
 
 % make sure the array as are 2xN
-% actually pointless, but even I forget 
+% actually pointless, but even I forget
 % to provide correct size, sigh!
 if size(X,1) > size(X,2); X = X'; end
-if size(Y,1) > size(Y,2); Y = Y'; end	
+if size(Y,1) > size(Y,2); Y = Y'; end
 
 if isvector(Y)
 
@@ -72,9 +71,9 @@ if isvector(Y)
 
 	xLarger = X(2,:) > Y;
 	yLarger = X(1,:) < Y;
-	
+
 else
-	%to find overlaps as well use: 
+	%to find overlaps as well use:
 	%overlaps = max(X(2,:),Y(2,:)) <= min(X(1,:),Y(1,:));
 
 	%compare 2 CIs

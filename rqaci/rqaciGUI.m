@@ -5,7 +5,7 @@ function rqaciGUI(varargin)
 % function rqaciGUI(X,Y [,timeScale])
 %
 % Purpose:
-% A simple MATLAB GUI that provides a convenient access to the 
+% A simple MATLAB GUI that provides a convenient access to the
 % rqaci.m routine and the required plotting routines. In order to run
 % the programme you have to have the CRPtoolbox installed as a prequesite
 % for computing RPs.
@@ -34,13 +34,12 @@ function rqaciGUI(varargin)
 %
 % see also: opTool
 %
-% References: 
-%	Schinkel, S., Dimigen, O., Marwan, N. & Kurths, J.: 
+% References:
+%	Schinkel, S., Dimigen, O., Marwan, N. & Kurths, J.:
 %	"Confidence Bounds of recurrence based complexity measures",
-%	Physics Letters A, 
+%	Physics Letters A,
 
-% Copyright (C) 2008 Stefan Schinkel, University of Potsdam
-% http://www.agnld.uni-potsdam.de 
+% Copyright (C) 2007-2015 Stefan Schinkel <mail@dreeg.org>
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -109,9 +108,9 @@ RPNormKeys = {'rr','fan','op','eucl','max','min'};
 %%%%%%%%%%%%%%%%%%%%%
 screenSize = get(0,'Screensize');
 
-figHandle = figure('Name','RQACI -- GUI',... 
-	'Position',[50,screenSize(4)-650,800,600],... % top left corner 50x50 padding 
-	'Color',[.801 .75 .688], ... 
+figHandle = figure('Name','RQACI -- GUI',...
+	'Position',[50,screenSize(4)-650,800,600],... % top left corner 50x50 padding
+	'Color',[.801 .75 .688], ...
 	'Tag','mainFigure',...
 	'Menubar','None');% choose 'Menubar','figure' to run into trouble
 
@@ -139,7 +138,7 @@ end %% main
 function computeCallback(source,eventdata,X,Y,RPNormKeys,measures,timeScale)
 
 	figHandle = get(source,'Parent');
-	
+
 	%rqa params
 	dim = str2double( get( findobj(figHandle,'Tag','valDim'),'String') );
 	tau = str2double( get( findobj(figHandle,'Tag','valTau'),'String') );
@@ -164,15 +163,15 @@ function computeCallback(source,eventdata,X,Y,RPNormKeys,measures,timeScale)
 	end
 
 	%% params aquired, compute stuff
-	hWaitbar = waitbar(0,'Computing RQA measures ...','WindowStyle','modal');	
+	hWaitbar = waitbar(0,'Computing RQA measures ...','WindowStyle','modal');
 
-	%% for easier plotting later on	
+	%% for easier plotting later on
 	indeces =[];
 
 	%switch small/full plot
 	if plotSize == 1,
 		for i=1:ss:length(X)-ws;
-						
+
 			rpX = crp(X(i:i+ws),dim,tau,epsilon,RPNormKeys{RPNorm},'silent');
 			rpY = crp(Y(i:i+ws),dim,tau,epsilon,RPNormKeys{RPNorm},'silent');
 
@@ -186,7 +185,7 @@ function computeCallback(source,eventdata,X,Y,RPNormKeys,measures,timeScale)
 	else
 		%User info
 		disp('INFO: Will use adjust plot to embedding params!');
-		
+
 		for i=1:ss:length(X)-ws-dim*tau;
 
 			rpX = crp(X(i:i+ws+dim*tau),dim,tau,epsilon,RPNormKeys{RPNorm},'nogui','silent');
@@ -198,33 +197,33 @@ function computeCallback(source,eventdata,X,Y,RPNormKeys,measures,timeScale)
 			waitbar(i/length(X),hWaitbar);
 
 			indeces(end+1) = i;
-			
+
 		end
-	end	
+	end
 
 	%close waitbar
 	close(hWaitbar)
-	
+
 	% merge data to struct
 	data.cisX = cisX; data.cisY = cisY;
 	data.indeces = indeces;
-	
+
 	% store in GUI
 	set(figHandle,'UserData',data);
 
-	%% manually trigger plotting callback 
+	%% manually trigger plotting callback
 	plotData(source,eventdata,figHandle,timeScale)
 
-		
+
 end % buttonComputeCallback
 
 function plotData(source,eventdata,figHandle,timeScale)
-	
+
 	%get axis handles
 	axData = findobj(figHandle,'Tag','axData');
 	axCI = findobj(figHandle,'Tag','axCI');
 	axCmp = findobj(figHandle,'Tag','axCmp');
-	
+
 	%% get params
 	dim = str2double( get( findobj(figHandle,'Tag','valDim'),'String') );
 	tau = str2double( get( findobj(figHandle,'Tag','valTau'),'String') );
@@ -237,7 +236,7 @@ function plotData(source,eventdata,figHandle,timeScale)
 	RPNormValue = get( findobj(figHandle,'Tag','valRPNorm'),'Value');
 	measures = get( findobj(figHandle,'Tag','valMeasure'),'String');
 	measureSelected = get( findobj(figHandle,'Tag','valMeasure'),'Value');
-	
+
 	%see if sth has bee computed
 	data = get(figHandle,'Userdata');
 
@@ -247,14 +246,14 @@ function plotData(source,eventdata,figHandle,timeScale)
 		cisX = data.cisX;cisY = data.cisY;
 		indeces = round(data.indeces);
 	end
-	
-	%activate axCI	
+
+	%activate axCI
 	axes(axCI)
 	cla(axCI)
-	
+
 	% plot data with given data indeces
 	ciplot(cisX(indeces,measureSelected,:),'b',timeScale(indeces+round(ws/2)));
-	ciplot(cisY(indeces,measureSelected,:),'r',timeScale(indeces+round(ws/2)));	
+	ciplot(cisY(indeces,measureSelected,:),'r',timeScale(indeces+round(ws/2)));
 
 	% fancy plot
 	xlim([timeScale(1) timeScale(end)]);
@@ -262,7 +261,7 @@ function plotData(source,eventdata,figHandle,timeScale)
 	set(axCI,'Tag','axCI');
 	set(axCI,'XGrid','on');
 	set(axCI,'YGrid','on');
-	
+
 	% and add the title
 	title(axData,sprintf('%s for %s RP -- dim: %d tau: %d eps: %1.3f ws:%d ss:%d',...
 		measures{measureSelected},RPNorms{RPNormValue},dim,tau,epsilon,ws,ss),...
@@ -283,35 +282,35 @@ function plotData(source,eventdata,figHandle,timeScale)
 	'tag','axCmp',...
 	'visible','off');
 
-	
-	
+
+
 end %plotData
 
-	
+
 %%%%%%%%%%%%%%%%%%%%%%%%%
 % 	HELPER FUNCTIONS	%
 %%%%%%%%%%%%%%%%%%%%%%%%%
-function closeCallback(source,eventdata) 
+function closeCallback(source,eventdata)
 
 	close( get(source,'Parent') )
 
 end % buttonCloseCallback
-function printCallback(source,eventdata) 
-	
+function printCallback(source,eventdata)
+
 	% get access to figure
 	figHandle = get(source,'Parent');
-	
+
 	% grab the plot axes for copying
 	axData = findobj(figHandle,'Tag','axData');
 	axCI = findobj(figHandle,'Tag','axCI');
 
 	%new, hidden figure
 	plotFigure = figure('visible','off');
-	
+
 	% copy data & CI axes
 	copyobj(axData,plotFigure)
 	copyobj(axCI,plotFigure)
-	
+
 	%serve printdlg
 	printdlg(plotFigure);
 

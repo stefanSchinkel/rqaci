@@ -5,27 +5,26 @@ function varargout = ciplot(varargin)
 % function hPatch = ciplot(ci, [,colour, timeScale])
 %
 % The function plots a confidence interval, or rather
-% any interval, defined by lower/upper as a shaded 
+% any interval, defined by lower/upper as a shaded
 % area - a patch object. The patch handle is returned to
-% the caller. Alpha is set to .2 (see-through). Further 
-% the egdes are faded out. 
+% the caller. Alpha is set to .2 (see-through). Further
+% the egdes are faded out.
 % Change this with >> set(hPatch,'EdgeAlpha',0)
 %
 % The area will be added by to the plot. It won't clear
-% any existing object. 
+% any existing object.
 %
 % Input:
 %	ci = condfidence interval(Nx2, with :,1 == upper bound)
-%	colour = colour of the area 
+%	colour = colour of the area
 %	tScale = time scale
 %
-% requires: 
+% requires:
 %
-% see also: 
+% see also:
 %
 
-% Copyright (C) 2009 Stefan Schinkel, University of Potsdam
-% http://www.agnld.uni-potsdam.de 
+% Copyright (C) 2007-2015 Stefan Schinkel <mail@dreeg.org>
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -55,7 +54,7 @@ if isempty(varargin{3}); tScale = 1:length(ci); else tScale = varargin{3};end
 % make sure shape matches
 if size(ci,2) > size(ci,1); ci = ci';end
 
-% NaN check: if there's NaN is the Patch defintion, 
+% NaN check: if there's NaN is the Patch defintion,
 % it won't render properly, there for we erase those
 % from the ci AND the timeScale
 if any(isnan(ci(:)))
@@ -66,11 +65,11 @@ if any(isnan(ci(:)))
 	idNan = find(isnan(ci(:,1)));
 	ci(idNan,:) = [];
 	tScale(idNan) = [];
-	
+
 	%no check lower limit
 	idNan = find(isnan(ci(:,2)));
 	ci(idNan,:) = [];
-	tScale(idNan) = [];	
+	tScale(idNan) = [];
 
 end
 
@@ -84,7 +83,7 @@ if ~ishold(gca),
 	set(gca,'NextPlot','add');
 end
 
-% create the patch  - NOTE: x(end:-1:1) == fliplr(x) 
+% create the patch  - NOTE: x(end:-1:1) == fliplr(x)
 hPatch = fill([tScale(1:1:end) tScale(end:-1:1)], [upperBound lowerBound(end:-1:1)],colour);
 
 % hide edges
@@ -104,18 +103,18 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %{
-if any(isnan(ci(:)));	
-	
+if any(isnan(ci(:)));
+
 	% interpolate along NaNs,
-	% might not be THE best thing, 
+	% might not be THE best thing,
 	% but it does ensure plotting
 	disp('CIPLOT Warning: NaNs in data. Will interpolate to ensure plotting.')
-	
+
 	upperBound(isnan(upperBound)) = interp1(find(~isnan(upperBound)), ...
 		upperBound(~isnan(upperBound)), ...
-		find(isnan(upperBound)), 'cubic'); 
+		find(isnan(upperBound)), 'cubic');
 	lowerBound(isnan(lowerBound)) = interp1(find(~isnan(lowerBound)), ...
 		lowerBound(~isnan(lowerBound)), ....
-		find(isnan(lowerBound)), 'cubic'); 
+		find(isnan(lowerBound)), 'cubic');
 end
 %}

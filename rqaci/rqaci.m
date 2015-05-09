@@ -27,14 +27,13 @@ function varargout = rqaci(varargin)
 %
 % see also: opTool, opcrqa.m, opcrp.m, CRPtool
 %
-% References: 
-% S. Schinkel, N. Marwan, O. Dimigen & J. Kurths (2009): 
+% References:
+% S. Schinkel, N. Marwan, O. Dimigen & J. Kurths (2009):
 % "Confidence Bounds of recurrence-based complexity measures"
 % Physics Letters A,  373(26), pp. 2245-2250
 %
 
-% Copyright (C) 2009 Stefan Schinkel, University of Potsdam
-% http://www.agnld.uni-potsdam.de 
+% Copyright (C) 2007-2015 Stefan Schinkel <mail@dreeg.org>
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -58,7 +57,7 @@ if (nargchk(0,2,nargout)), help(mfilename),return; end
 
 varargin{7} = [];
 
-% input assignment 
+% input assignment
 RP = varargin{1};
 if ~isempty(varargin{2}), nBoot = varargin{2}; else nBoot = 500;end
 if ~isempty(varargin{3}), alpha = varargin{3}; else alpha = 1;end
@@ -94,7 +93,7 @@ bsLAM = zeros(1,nBoot);
 bsTT = zeros(1,nBoot);
 
 for i=1:nBoot
-	
+
 	% avoid 100s of divideByZero etc. errors
 	warning('off','all')
 
